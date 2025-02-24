@@ -4,7 +4,10 @@ import toast from "react-hot-toast";
 import { io } from "socket.io-client";
 
 const BASE_URL =
-  import.meta.env.MODE === "development" ? "http://localhost:3000" : "/";
+  import.meta.env.MODE === "development"
+    ? "http://localhost:3000"
+    : "https://rakcha.onrender.com";
+
 interface UserSignup {
   fullName: string;
   email: string;
@@ -110,6 +113,8 @@ export const useAuthStore = create<AuthState>((set, get) => ({
       query: {
         userId: authUser._id,
       },
+      transports: ["websocket", "polling"],
+      withCredentials: true,
     });
     socket.connect();
 

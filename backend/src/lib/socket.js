@@ -7,8 +7,14 @@ const server = http.createServer(app);
 
 const io = new Server(server, {
   cors: {
-    origin: ["http://localhost:5173"],
+    origin:
+      process.env.NODE_ENV === "development"
+        ? ["http://localhost:5173"]
+        : ["https://rakcha.onrender.com"],
+    credentials: true,
   },
+  pingTimeout: 60000,
+  transports: ["websocket", "polling"],
 });
 
 export function getReceiverSocketId(userId) {
